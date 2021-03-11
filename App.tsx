@@ -1,49 +1,37 @@
+import { StatusBar } from 'expo-status-bar';
+
 import React, {useRef, useState} from 'react';
 import { Text, View, TouchableOpacity, Alert, Platform } from 'react-native';
 // import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
-import { FontAwesome5, Ionicons, AntDesign } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons, AntDesign, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { Modalize } from "react-native-modalize";
 
 import Market from './Market';
 import Wallet from './Wallet';
 
-function HomeScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Home!</Text>
-      
-    </View>
-  );
-}
-
-function SettingsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Settings!</Text>
-    </View>
-  );
-}
+import { Item, Favicon, ModalContainer, TitleModal, Description, Line, } from './styles';
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
 
-  const modalizeDestino = useRef<Modalize>(null);
+  const modalizeMenu = useRef<Modalize>(null);
 
   const [status, setStatus] = useState(false);
 
   const toggle = () => {
-    !status ? modalizeDestino.current?.open() : modalizeDestino.current?.close()
+    !status ? modalizeMenu.current?.open() : modalizeMenu.current?.close()
     setStatus(!status);
   };
 
   return (
     <>
-    
+    <StatusBar style="light" />
+
     <NavigationContainer>
     
       <Tab.Navigator
@@ -62,8 +50,8 @@ export default function App() {
           },
         })}
         tabBarOptions={{
-          activeTintColor: '#F0B90B',
-          inactiveTintColor: '#f0f0f0',
+          activeTintColor: '#f0f0f0',
+          inactiveTintColor: 'rgba(255,255,255, 0.3)',
           showLabel: false,
           inactiveBackgroundColor: "#1F2630",
           activeBackgroundColor: "#1F2630",
@@ -103,16 +91,71 @@ export default function App() {
           style={{transform: [{ rotate: "-90deg" }]}}
         />}
       </TouchableOpacity>
-      <Modalize ref={modalizeDestino} snapPoint={280}>
+      <Modalize ref={modalizeMenu} snapPoint={400}
+        onClosed={()=> setStatus(!status)}
+      >
         <View
           style={{
             flex: 1,
-            height: 280,
-            padding: 20,
+            height: 400,
             backgroundColor: '#232A34',
+            borderTopLeftRadius: 12,
+            borderTopRightRadius: 12,
+            paddingTop: 20
           }}
         >
-          <Text>Modal content</Text>
+          <Item>
+            <MaterialCommunityIcons 
+              size={24} color="#F0B90B" name="arrow-up-bold-circle"
+                style={{ marginBottom: 10}}
+              />
+            <ModalContainer>
+              <TitleModal>Buy</TitleModal>
+              <Description>
+                Buy crypto with your local currency
+              </Description>
+            </ModalContainer>
+          </Item>
+          <Line />
+          <Item>
+            <MaterialCommunityIcons 
+              size={24} color="#F0B90B" name="arrow-up-bold-circle"
+                style={{ marginBottom: 10}}
+              />
+            <ModalContainer>
+              <TitleModal>Sell</TitleModal>
+              <Description>
+                Buy crypto with your local currency
+              </Description>
+            </ModalContainer>
+          </Item>
+          <Line />
+          <Item>
+            <MaterialCommunityIcons 
+              size={24} color="#F0B90B" name="arrow-up-bold-circle"
+                style={{ marginBottom: 10}}
+              />
+            <ModalContainer>
+              <TitleModal>Deposit</TitleModal>
+              <Description>
+                Buy crypto with your local currency
+              </Description>
+            </ModalContainer>
+          </Item>
+          <Line />
+          <Item>
+            <MaterialCommunityIcons 
+              size={24} color="#F0B90B" name="arrow-up-bold-circle"
+                style={{ marginBottom: 10}}
+              />
+            <ModalContainer>
+              <TitleModal>Convert</TitleModal>
+              <Description>
+                Buy crypto with your local currency
+              </Description>
+            </ModalContainer>
+          </Item>
+          <Line />
         </View>
       </Modalize>
     </NavigationContainer>
